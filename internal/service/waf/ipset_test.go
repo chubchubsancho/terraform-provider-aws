@@ -328,6 +328,16 @@ func TestDiffWafIpSetDescriptors(t *testing.T) {
 				},
 			},
 		},
+		{
+			// Nothing as diff is supressed for ipv6 shortening
+			Old: []interface{}{
+				map[string]interface{}{"type": "IPV6", "value": "2a03:b0c0:0001:00e0:0000:0000:029b:8001"},
+			},
+			New: []interface{}{
+				map[string]interface{}{"type": "IPV6", "value": "2a03:b0c0:1:e0::29b:8001"},
+			},
+			ExpectedUpdates: [][]*waf.IPSetUpdate{{}},
+		},
 	}
 	for i, tc := range testCases {
 		t.Run(fmt.Sprintf("%d", i), func(t *testing.T) {
